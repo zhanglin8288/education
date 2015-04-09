@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load i18n future mezzanine_tags keyword_tags %}
+
+{% block meta_title %}{% if page %}{{ page.meta_title }}{% else %}{% trans "News" %}{% endif %}{% endblock %}
+
+{% block meta_keywords %}{% metablock %}
+{% keywords_for page as keywords %}
+{% for keyword in keywords %}
+{% if not forloop.first %}, {% endif %}
+{{ keyword }}
+{% endfor %}
+{% endmetablock %}{% endblock %}
+
+{% block meta_description %}{% metablock %}
+{{ page.description }}
+{% endmetablock %}{% endblock %}
+
+{% block title_wrapper %}
+{% endblock %}
+
+{% block breadcrumb_menu %}
+{{ block.super }}
+{% if tag or category or year or month or author %}
+<li>{% spaceless %}
+  {% if tag %}
+  {% trans "Tag:" %} {{ tag }}
+  {% else %}{% if category %}
+  {% trans "Category:" %} {{ category }}
+  {% else %}{% if year or month %}
+  {% if month %}{{ month }}, {% endif %}{{ year }}
+  {% else %}{% if author %}
+  {% trans "Author:" %} {{ author.get_full_name|default:author.username }}
+  {% endif %}{% endif %}{% endif %}{% endif %}
+  {% endspaceless %}
+</li>
+{% endif %}
+{% endblock %}
+
+{% block left_wrapper %}
+{% endblock %}
+<div class="col-md-{% block main_col_size %}8{% endblock %}">
+  {% block main %}
+
+  {% if tag or category or year or month or author %}
+  {% block news_post_list_filterinfo %}
+  <p>
+    {% if tag %}
+    {% trans "Viewing posts tagged" %} {{ tag }}
+    {% else %}{% if category %}
+    {% trans "Viewing posts for the category" %} {{ category }}
+    {% else %}{% if year or month %}
+    {% trans "Viewing posts from" %} {% if month %}{{ month }}, {% endif %}
+    {{ year }}
+    {% else %}{% if author %}
+    {% trans "Viewing posts by" %}
+    {{ author.get_full_name|default:author.username }}
+    {% endif %}{% endif %}{% endif %}{% endif %}
+    {% endblock %}
+  </p>
+  {% else %}
+  {% if page %}
+  {% block news_post_list_pagecontent %}
+  {% if page.get_content_model.content %}
+  {% editable page.get_content_model.content %}
+  {{ page.get_content_model.content|richtext_filters|safe }}
+  {% endeditable %}
+  {% endif %}
+  {% endblock %}
+  {% endif %}
+  {% endif %}
+
+  {% for news_post in news_posts.object_list %}
+  {% block news_post_main%}
+  <article>
+    <div class="post-image">
+      <div class="post-heading">
+	{% block news_post_list_post_title %}
+	{% editable news_post.title %}
+	<h3><a href="{{ news_post.get_absolute_url }}">{{ news_post.title }}</a></h3>
+	{% endeditable %}
+	{% endblock %}
+      </div>
+      {% if settings.BLOG_USE_FEATURED_IMAGE and news_post.featured_image %}
+      {% block news_post_list_post_featured_image %}
+      <a href="{{ news_post.get_absolute_url }}">
+	<img class="" src="{{ MEDIA_URL }}{{news_post.featured_image}}">
+      </a>
+      {% endblock %}
+      {% endif %}
+    </div>
+
+    {% block news_post_list_post_content %}
+    {% editable news_post.content %}
+    {{ news_post.description_from_content|safe }}
+    {% endeditable %}
+    {% endblock %}
+    <div class="bottom-article">
+      {% block news_post_list_post_metainfo %}
+      {% editable news_post.publish_date %}
+      <ul class="meta-post">
+	<li><i class="icon-calendar"></i><a href="#"> {% blocktrans with sometime=news_post.publish_date|timesince %}{{ sometime }} ago{% endblocktrans %}</a></li>
+	{% with news_post.user as author %}
+	<li><i class="icon-user"></i><a href="{% url "news_post_list_author" author %}"> {{author.get_full_name|default:author.username}}</a></li>
+	{% endwith %}
+	{% with news_post.categories.all as categories %}
+	{% if categories %}
+	<li><i class="icon-folder-open"></i>
+    	  {% for category in categories %}
+	  <a href="{% url "news_post_list_category" category.slug %}">{{ category }}</a>{% if not forloop.last %}, {% endif %}
+	  {% endfor %}
+	</li>
+	{% endif %}
+	{% endwith %}
+      </ul>
+      {% block read_more%}
+      <a class="pull-right" href="{{ news_post.get_absolute_url }}">Continue reading <i class="icon-angle-right"></i></a>
+      {% endblock %}
+      {% endeditable %}
+      {% endblock %}
+    </div>
+
+  </article>
+  {% endblock %}
+  {% endfor %}
+
+  {% pagination_for news_posts %}
+  {% endblock %}
+
+</div><!-- END MAIN -->
+
+<div class="col-md-{% block right_col_size %}4{% endblock %}">
+  {% block right_panel %}
+  {% include "news/includes/filter_panel.html" %}
+  {% endblock %}
+</div>

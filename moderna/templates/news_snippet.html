@@ -1,0 +1,19 @@
+{% load i18n  mezzanine_tags news_tags %}
+<div class="col-lg-3">
+  <div class="box">
+    {% if recent_posts %}
+    <div class="box-gray">
+      <h4 class="aligncenter">{{ category }}</h4>
+      <ul>
+        {% for recent_post in recent_posts %}
+        <li>
+          <a title="{{ recent_post.title}}" href="{{ recent_post.get_absolute_url }}">{{ recent_post.short_title }}</a>
+        </li>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="box-bottom">
+      <a href="{% url "news_post_list_category" category.slug %}">Learn more</a>
+    </div>
+  </div>
+</div>
