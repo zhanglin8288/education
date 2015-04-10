@@ -41,7 +41,7 @@ class NewsPost(Displayable, Ownable, RichText, AdminThumbMixin):
         """
         URLs for news posts can either be just their slug, or prefixed
         with a portion of the post's publish date, controlled by the
-        setting ``BLOG_URLS_DATE_FORMAT``, which can contain the value
+        setting ``NEWS_URLS_DATE_FORMAT``, which can contain the value
         ``year``, ``month``, or ``day``. Each of these maps to the name
         of the corresponding urlpattern, and if defined, we loop through
         each of these and build up the kwargs for the correct urlpattern.
@@ -52,14 +52,14 @@ class NewsPost(Displayable, Ownable, RichText, AdminThumbMixin):
         url_name = "news_post_detail"
         kwargs = {"slug": self.slug}
         date_parts = ("year", "month", "day")
-        if settings.BLOG_URLS_DATE_FORMAT in date_parts:
-            url_name = "news_post_detail_%s" % settings.BLOG_URLS_DATE_FORMAT
+        if settings.NEWS_URLS_DATE_FORMAT in date_parts:
+            url_name = "news_post_detail_%s" % settings.NEWS_URLS_DATE_FORMAT
             for date_part in date_parts:
                 date_value = str(getattr(self.publish_date, date_part))
                 if len(date_value) == 1:
                     date_value = "0%s" % date_value
                 kwargs[date_part] = date_value
-                if date_part == settings.BLOG_URLS_DATE_FORMAT:
+                if date_part == settings.NEWS_URLS_DATE_FORMAT:
                     break
         return reverse(url_name, kwargs=kwargs)
 
@@ -72,18 +72,18 @@ class NewsPost(Displayable, Ownable, RichText, AdminThumbMixin):
     # These methods are deprecated wrappers for keyword and category
     # access. They existed to support Django 1.3 with prefetch_related
     # not existing, which was therefore manually implemented in the
-    # blog list views. All this is gone now, but the access methods
+    # news list views. All this is gone now, but the access methods
     # still exist for older templates.
 
     def category_list(self):
         from warnings import warn
-        warn("blog_post.category_list in templates is deprecated"
-             "use blog_post.categories.all which are prefetched")
+        warn("news_post.category_list in templates is deprecated"
+             "use news_post.categories.all which are prefetched")
         return getattr(self, "_categories", self.categories.all())
 
     def keyword_list(self):
         from warnings import warn
-        warn("blog_post.keyword_list in templates is deprecated"
+        warn("news_post.keyword_list in templates is deprecated"
              "use the keywords_for template tag, as keywords are prefetched")
         try:
             return self._keywords
@@ -95,7 +95,7 @@ class NewsPost(Displayable, Ownable, RichText, AdminThumbMixin):
 
 class NewsCategory(Slugged):
     """
-    A category for grouping blog posts into a series.
+    A category for grouping news posts into a series.
     """
 
     class Meta:

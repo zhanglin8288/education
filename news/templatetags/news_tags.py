@@ -17,7 +17,7 @@ register = template.Library()
 @register.as_tag
 def news_months(*args):
     """
-    Put a list of dates for blog posts into the template context.
+    Put a list of dates for news posts into the template context.
     """
     dates = NewsPost.objects.published().values_list("publish_date", flat=True)
     date_dicts = [{"date": datetime(d.year, d.month, 1)} for d in dates]
@@ -33,7 +33,7 @@ def news_months(*args):
 @register.as_tag
 def news_categories(*args):
     """
-    Put a list of categories for blog posts into the template context.
+    Put a list of categories for news posts into the template context.
     """
     posts = NewsPost.objects.published()
     categories = NewsCategory.objects.filter(newsposts__in=posts)
@@ -43,7 +43,7 @@ def news_categories(*args):
 @register.as_tag
 def news_authors(*args):
     """
-    Put a list of authors (users) for blog posts into the template context.
+    Put a list of authors (users) for news posts into the template context.
     """
     news_posts = NewsPost.objects.published()
     authors = User.objects.filter(newsposts__in=news_posts)
@@ -54,16 +54,16 @@ def news_authors(*args):
 def news_recent_posts(limit=5, tag=None, username=None,
                       category=None, in_slider=None):
     """
-    Put a list of recently published blog posts into the template
+    Put a list of recently published news posts into the template
     context. A tag title or slug, category title or slug or author's
     username can also be specified to filter the recent posts returned.
 
     Usage::
 
-        {% blog_recent_posts 5 as recent_posts %}
-        {% blog_recent_posts limit=5 tag="django" as recent_posts %}
-        {% blog_recent_posts limit=5 category="python" as recent_posts %}
-        {% blog_recent_posts 5 username=admin as recent_posts %}
+        {% news_recent_posts 5 as recent_posts %}
+        {% news_recent_posts limit=5 tag="django" as recent_posts %}
+        {% news_recent_posts limit=5 category="python" as recent_posts %}
+        {% news_recent_posts 5 username=admin as recent_posts %}
 
     """
     news_posts = NewsPost.objects.published().select_related("user")
@@ -95,7 +95,7 @@ def news_recent_posts(limit=5, tag=None, username=None,
 @register.inclusion_tag("admin/includes/quick_news.html", takes_context=True)
 def quick_blog(context):
     """
-    Admin dashboard tag for the quick blog form.
+    Admin dashboard tag for the quick news form.
     """
     context["form"] = NewsPostForm()
     return context

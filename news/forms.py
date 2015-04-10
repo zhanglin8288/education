@@ -7,7 +7,7 @@ from mezzanine.core.models import CONTENT_STATUS_DRAFT
 
 
 # These fields need to be in the form, hidden, with default values,
-# since it posts to the blog post admin, which includes these fields
+# since it posts to the news post admin, which includes these fields
 # and will use empty values instead of the model defaults, without
 # these specified.
 hidden_field_defaults = ("status", "gen_description")
@@ -15,7 +15,7 @@ hidden_field_defaults = ("status", "gen_description")
 
 class NewsPostForm(forms.ModelForm):
     """
-    Model form for ``BlogPost`` that provides the quick blog panel in the
+    Model form for ``NewsPost`` that provides the quick news panel in the
     admin dashboard.
     """
 

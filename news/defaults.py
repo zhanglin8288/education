@@ -1,5 +1,5 @@
 """
-Default settings for the ``mezzanine.blog`` app. Each of these can be
+Default settings for the ``news`` app. Each of these can be
 overridden in your project's settings module, just like regular
 Django settings. The ``editable`` argument for each controls whether
 the setting is editable via Django's admin.
@@ -18,53 +18,53 @@ from mezzanine.conf import register_setting
 
 
 register_setting(
-    name="BLOG_USE_FEATURED_IMAGE",
-    description=_("Enable featured images in blog posts"),
+    name="NEWS_USE_FEATURED_IMAGE",
+    description=_("Enable featured images in news posts"),
     editable=True,
     default=True,
 )
 
-_BLOG_URLS_DATE_FORMAT = ""
-if getattr(settings, "BLOG_URLS_USE_DATE", False):
-    _BLOG_URLS_DATE_FORMAT = "day"
+_NEWS_URLS_DATE_FORMAT = ""
+if getattr(settings, "NEWS_URLS_USE_DATE", False):
+    _NEWS_URLS_DATE_FORMAT = "day"
     from warnings import warn
-    warn("BLOG_URLS_USE_DATE setting is deprecated, please use the "
-        "BLOG_URLS_DATE_FORMAT setting with a value of 'year', 'month', "
+    warn("NEWS_URLS_USE_DATE setting is deprecated, please use the "
+        "NEWS_URLS_DATE_FORMAT setting with a value of 'year', 'month', "
         "or 'day'.")
 
 register_setting(
-    name="BLOG_URLS_DATE_FORMAT",
-    label=_("Blog post URL date format"),
+    name="NEWS_URLS_DATE_FORMAT",
+    label=_("News post URL date format"),
     description=_("A string containing the value ``year``, ``month``, or "
         "``day``, which controls the granularity of the date portion in the "
-        "URL for each blog post. Eg: ``year`` will define URLs in the format "
-        "/blog/yyyy/slug/, while ``day`` will define URLs with the format "
-        "/blog/yyyy/mm/dd/slug/. An empty string means the URLs will only "
+        "URL for each news post. Eg: ``year`` will define URLs in the format "
+        "/news/yyyy/slug/, while ``day`` will define URLs with the format "
+        "/news/yyyy/mm/dd/slug/. An empty string means the URLs will only "
         "use the slug, and not contain any portion of the date at all."),
     editable=False,
-    default=_BLOG_URLS_DATE_FORMAT,
+    default=_NEWS_URLS_DATE_FORMAT,
 )
 
 register_setting(
-    name="BLOG_POST_PER_PAGE",
-    label=_("Blog posts per page"),
-    description=_("Number of blog posts shown on a blog listing page."),
+    name="NEWS_POST_PER_PAGE",
+    label=_("News posts per page"),
+    description=_("Number of news posts shown on a news listing page."),
     editable=True,
     default=5,
 )
 
 register_setting(
-    name="BLOG_RSS_LIMIT",
-    label=_("Blog posts RSS limit"),
-    description=_("Number of most recent blog posts shown in the RSS feed. "
-        "Set to ``None`` to display all blog posts in the RSS feed."),
+    name="NEWS_RSS_LIMIT",
+    label=_("News posts RSS limit"),
+    description=_("Number of most recent news posts shown in the RSS feed. "
+        "Set to ``None`` to display all news posts in the RSS feed."),
     editable=False,
     default=20,
 )
 
 register_setting(
-    name="BLOG_SLUG",
-    description=_("Slug of the page object for the blog."),
+    name="NEWS_SLUG",
+    description=_("Slug of the page object for the news."),
     editable=False,
-    default="blog",
+    default="news",
 )

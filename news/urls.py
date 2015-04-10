@@ -7,11 +7,11 @@ from mezzanine.conf import settings
 
 # Leading and trailing slahes for urlpatterns based on setup.
 _slashes = (
-    "/" if settings.BLOG_SLUG else "",
+    "/" if settings.NEWS_SLUG else "",
     "/" if settings.APPEND_SLASH else "",
 )
 
-# Blog patterns.
+# News patterns.
 urlpatterns = patterns(
     "news.views",
     url("^%sfeeds/(?P<format>.*)%s$" % _slashes,
