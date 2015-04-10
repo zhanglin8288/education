@@ -17,5 +17,5 @@ xxx/admin链接进入后台管理。
 
 ===============
 # 林妹妹任务
-- [ ] 相关网站链接（首页上的Related Site），同新闻可在后台添加修改（参考news的实现） <2015-04-10 Fri>--<2015-04-13 Mon>
-- [ ] 中文化（参考https://docs.djangoproject.com/en/1.8/topics/i18n/translation/） <2015-04-10 Fri>--TBA
+- [ ] 相关网站链接（首页上的Related Site），同新闻可在后台添加修改（参考news的实现） 2015-04-10 Fri--2015-04-13 Mon
+- [ ] 中文化（参考https://docs.djangoproject.com/en/1.8/topics/i18n/translation/） 2015-04-10 Fri--TBA
