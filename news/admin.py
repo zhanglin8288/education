@@ -12,11 +12,12 @@ from mezzanine.twitter.admin import TweetableAdminMixin
 
 
 newspost_fieldsets = deepcopy(DisplayableAdmin.fieldsets)
-newspost_fieldsets[0][1]["fields"].insert(1, "categories")
+newspost_fieldsets[0][1]["fields"].insert(1, "in_slider")
+newspost_fieldsets[0][1]["fields"].insert(2, "categories")
 newspost_fieldsets[0][1]["fields"].extend(["content"])
-newspost_list_display = ["title", "user", "status", "admin_link"]
+newspost_list_display = ["title", "user", "status", "in_slider", "admin_link"]
 if settings.BLOG_USE_FEATURED_IMAGE:
-    newspost_fieldsets[0][1]["fields"].insert(-2, "featured_image")
+    newspost_fieldsets[0][1]["fields"].insert(1, "featured_image")
     newspost_list_display.insert(0, "admin_thumb")
 newspost_fieldsets = list(newspost_fieldsets)
 newspost_fieldsets.insert(1, (_("Other posts"), {

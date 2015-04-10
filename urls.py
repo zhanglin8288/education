@@ -32,7 +32,7 @@ urlpatterns += patterns(
     # one homepage pattern, so if you use a different one, comment this
     # one out.
 
-    url(r"^$", include("moderna.urls")),
+    url(r"^$", include("home.urls")),
     #url("^$", direct_to_template, {"template": "index.html"}, name="home"),
 
     # HOMEPAGE AS AN EDITABLE PAGE IN THE PAGE TREE

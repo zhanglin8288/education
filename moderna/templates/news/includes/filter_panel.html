@@ -9,9 +9,9 @@
   <ul class="recent">
     {% for recent_post in recent_posts %}
     <li>
-      <img class="pull-left" alt="" src="{{ MEDIA_URL }}{% thumbnail recent_post.featured_image 65 65 %}">
-      <h6><a href="{{ recent_post.get_absolute_url }}"
-             >{{ recent_post.title }}</a>
+      <!-- <img class="pull-left" alt="" src="{{ MEDIA_URL }}{% thumbnail recent_post.featured_image 65 65 %}"> -->
+      <h6><a title="{{ recent_post.title }}" href="{{ recent_post.get_absolute_url }}">
+          {{ recent_post.title|truncatechars:14 }}</a>
       </h6>
     </li>
     {% endfor %}

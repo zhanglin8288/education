@@ -24,6 +24,10 @@ class NewsPost(Displayable, Ownable, RichText, AdminThumbMixin):
         verbose_name=_("Featured Image"),
         upload_to=upload_to("news.NewsPost.featured_image", "news"),
         format="Image", max_length=255, null=True, blank=True)
+    in_slider = models.BooleanField(
+        verbose_name=_("In Slider"),
+        help_text=_("With this option selected, will be shown in slider on the home"),
+        default=False)
     related_posts = models.ManyToManyField(
         "self", verbose_name=_("Related posts"), blank=True)
     admin_thumb_field = "featured_image"

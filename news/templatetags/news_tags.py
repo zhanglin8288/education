@@ -51,7 +51,8 @@ def news_authors(*args):
 
 
 @register.as_tag
-def news_recent_posts(limit=5, tag=None, username=None, category=None):
+def news_recent_posts(limit=5, tag=None, username=None,
+                      category=None, in_slider=None):
     """
     Put a list of recently published blog posts into the template
     context. A tag title or slug, category title or slug or author's
@@ -85,6 +86,9 @@ def news_recent_posts(limit=5, tag=None, username=None, category=None):
             news_posts = news_posts.filter(user=author)
         except User.DoesNotExist:
             return []
+    if in_slider is not None:
+        news_posts = news_posts.filter(in_slider=True)
+    print(news_posts)
     return list(news_posts[:limit])
 
 
