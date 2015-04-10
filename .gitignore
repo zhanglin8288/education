@@ -1,6 +1,7 @@
 *.py[cod]
 
 *.db
+.thumbnails
 
 # C extensions
 *.so
